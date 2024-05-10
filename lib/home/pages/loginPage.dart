@@ -18,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwodController = TextEditingController();
 
   bool isVisible = false;
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -53,11 +54,8 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     TextFormField(
-                      controller: nameController,
                       keyboardType: TextInputType.emailAddress,
-                      validator: (value) {
-                        emptyValidation(value ?? "");
-                      },
+                      validator: (value) => emptyValidation(value),
                       cursorColor: Colors.white,
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
@@ -72,11 +70,8 @@ class _LoginPageState extends State<LoginPage> {
                       height: screenHeight * 0.1,
                     ),
                     TextFormField(
-                      controller: passwodController,
                       cursorColor: Colors.white,
-                      validator: (value) {
-                        emptyValidation(value);
-                      },
+                      validator: (value) => emptyValidation(value),
                       obscureText: !isVisible ? true : false,
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
@@ -111,8 +106,13 @@ class _LoginPageState extends State<LoginPage> {
                       height: 10,
                       padding: EdgeInsets.all(10.0),
                       onPressed: () {
-                        if (nameController.text.isEmpty &&
-                            passwodController.text.isEmpty) {
+                        if (formKey.currentState!.validate()) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomePage()),
+                          );
+                        } else {
                           AlertDialog alert = AlertDialog(
                             content: const Text('Invalid Input Data'),
                             actions: <Widget>[
@@ -129,12 +129,6 @@ class _LoginPageState extends State<LoginPage> {
                             builder: (BuildContext context) {
                               return alert;
                             },
-                          );
-                        } else {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage()),
                           );
                         }
                       },

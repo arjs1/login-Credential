@@ -63,15 +63,12 @@ class _SignupPageState extends State<SignupPage> {
                 child: Column(
               children: [
                 TextFormField(
-                  controller: nameController,
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(
                       RegExp(r'^[a-zA-Z ]*$'),
                     ),
                   ],
-                  validator: (value) {
-                    emptyValidation(value ?? "");
-                  },
+                  validator: (value) => emptyValidation(value),
                   cursorColor: Colors.white,
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
@@ -88,10 +85,7 @@ class _SignupPageState extends State<SignupPage> {
                 //email credential
 
                 TextFormField(
-                  controller: emailController,
-                  validator: (value) {
-                    emptyValidation(value ?? "");
-                  },
+                  validator: (value) => emptyValidation(value),
                   cursorColor: Colors.white,
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
@@ -107,11 +101,8 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 //Password credential
                 TextFormField(
-                  controller: passwordController,
                   cursorColor: Colors.white,
-                  validator: (value) {
-                    emptyValidation(value);
-                  },
+                  validator: (value) => emptyValidation(value),
                   obscureText: !isVisible ? true : false,
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
@@ -143,12 +134,9 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 //reconfirm password credential
                 TextFormField(
-                  controller: repasswodController,
                   cursorColor: Colors.white,
-                  validator: (value) {
-                    emptyValidation(value);
-                  },
-                  obscureText: !isVisible ? true : false,
+                  validator: (value) => emptyValidation(value),
+                  obscureText: isVisible ? true : false,
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     labelText: "Confirm Password",
@@ -183,11 +171,7 @@ class _SignupPageState extends State<SignupPage> {
                   height: 10,
                   padding: EdgeInsets.all(10.0),
                   onPressed: () {
-                    if (nameController.text.isEmpty &&
-                        emailController.text.isEmpty &&
-                        passwordController.text.isEmpty &&
-                        repasswodController.text.isEmpty &&
-                        passwordController != repasswodController) {
+                    if (formKeyy.currentState!.validate()) {
                       AlertDialog alert = AlertDialog(
                         content: const Text('Invalid Input Data'),
                         actions: <Widget>[

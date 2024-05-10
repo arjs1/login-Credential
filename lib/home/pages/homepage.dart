@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logincredential/home/pages/profilePage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -8,6 +9,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final List<Widget> _children = [
+    HomePage(),
+    ProfilePage(),
+  ];
+  _onTap() {
+    // this has changed
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) =>
+            _children[_currentIndex])); // this has changed
+  }
+
+  int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,19 +37,32 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Text(
-              "Welcome To The Real World",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-              ),
+      body: Container(),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.white,
+        backgroundColor: Colors.black,
+        currentIndex: _currentIndex,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
             ),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+            ),
+            label: 'Profile',
           ),
         ],
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+          _onTap();
+        },
       ),
     );
   }
